@@ -15,9 +15,9 @@ onMounted(() => {
   }
 })
 
-watch(() => tasks.value, () => {
+watch(tasks, () => {
   localStorage.setItem('tasks', JSON.stringify(tasks.value))
-})
+}, { deep: true })
 
 const doneTasks = computed(() => tasks.value.reduce((total, task) => task.done ? total + 1 : total, 0))
 
@@ -85,6 +85,7 @@ const filterTask = computed(() => {
 main {
   max-width: 800px;
   margin: 1rem auto;
+  padding: 0 1rem;
 }
 
 .buttons-container {

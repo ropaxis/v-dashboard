@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps } from "vue";
+import { defineEmits } from "vue";
 import type { TasksFilter } from '../types'
 
 const props = defineProps<{ filter: TasksFilter, currentFilter: TasksFilter }>()
