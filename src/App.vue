@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import TaskForm from './components/TaskForm.vue'
 import TasksList from './components/TasksList.vue'
 import FilterButton from './components/FilterButton.vue'
@@ -7,6 +7,17 @@ import type { Task, TasksFilter } from './types'
 
 const tasks = ref<Task[]>([])
 const filter = ref<TasksFilter>('all')
+
+onMounted(() => {
+  const ls = localStorage.getItem('tasks')
+  if (ls) {
+    tasks.value = JSON.parse(localStorage.getItem('tasks')!)
+  }
+})
+
+watch(() => tasks.value, () => {
+  localStorage.setItem('tasks', JSON.stringify(tasks.value))
+})
 
 const doneTasks = computed(() => tasks.value.reduce((total, task) => task.done ? total + 1 : total, 0))
 
@@ -23,8 +34,6 @@ function toggleDone(id: string) {
   const task = tasks.value.find((task) => {
     return task.id === id
   })
-
-
   if (task) {
     task.done = !task.done
   }
